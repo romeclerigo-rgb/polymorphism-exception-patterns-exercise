@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -42,7 +41,7 @@ public class Main {
                     break;
                 case 5:
                     loop = false;
-                    System.out.println("Thank you for using the system!");
+                    System.out.println("Thank you!");
                     break;
             }
         }
