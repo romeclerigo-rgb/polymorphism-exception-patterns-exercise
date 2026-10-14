@@ -198,82 +198,94 @@ public class Main {
         }
     }
 
-    private void changeDeliveryService() {
-        System.out.println("\n==============================================");
-        System.out.println("          CHANGE DELIVERY SERVICE");
-        System.out.println("==============================================");
+    
+        private void changeDeliveryService() {
+            System.out.println("\n==============================================");
+            System.out.println("          CHANGE DELIVERY SERVICE");
+            System.out.println("==============================================");
 
-        System.out.print("Enter tracking number: ");
-        String trackingNumber = sc.nextLine();
+            if (manager.isEmpty()) {
+                System.out.println("No parcels yet.");
+                return;
+            }
 
-        Parcel parcel = manager.findParcel(trackingNumber);
+            System.out.print("Enter tracking number: ");
+            String trackingNumber = sc.nextLine();
 
-        if (parcel == null) {
-            System.out.println("Parcel not found!");
-            return;
-        }
+            Parcel parcel = manager.findParcel(trackingNumber);
 
-        if (parcel.getStatus().equals("Delivered")) {
-            System.out.println("Parcel already delivered!");
-            return;
-        }
+            if (parcel == null) {
+                System.out.println("Parcel not found!");
+                return;
+            }
 
-        System.out.println(
-            "Current service: " + parcel.getDeliveryService()
-        );
+            if (parcel.getStatus().equals("Delivered")) {
+                System.out.println("Parcel already delivered!");
+                return;
+            }
 
-        String newService = validation.getDeliveryService(sc);
-
-        if (newService.equals(parcel.getDeliveryService())) {
             System.out.println(
-                "Parcel is already using this delivery service!"
+                "Current service: " + parcel.getDeliveryService()
             );
-            return;
-        }
 
-        if (newService.equals("Same Day")
-                && parcel.getChargeableWeight() > 10) {
+            String newService = validation.getDeliveryService(sc);
+
+            if (newService.equals(parcel.getDeliveryService())) {
+                System.out.println(
+                    "Parcel is already using this delivery service!"
+                );
+                return;
+            }
+
+            if (newService.equals("Same Day")
+                    && parcel.getChargeableWeight() > 10) {
+                System.out.println(
+                    "Same Day delivery is only for parcels up to 10 kg!"
+                );
+                return;
+            }
+
+            parcel.setDeliveryService(newService);
+
+            System.out.println("Delivery service updated successfully!");
             System.out.println(
-                "Same Day delivery is only for parcels up to 10 kg!"
+                "New service: " + parcel.getDeliveryService()
             );
-            return;
+
+            System.out.printf(
+                "New delivery fee: Php %,.2f%n",
+                manager.calculateDeliveryFee(parcel)
+            );
         }
 
-        parcel.setDeliveryService(newService);
 
-        System.out.println("Delivery service updated successfully!");
-        System.out.println(
-            "New service: " + parcel.getDeliveryService()
-        );
+    
+        private void markAsDelivered() {
+            System.out.println("\n==============================================");
+            System.out.println("             MARK AS DELIVERED");
+            System.out.println("==============================================");
 
-        System.out.printf(
-            "New delivery fee: Php %,.2f%n",
-            manager.calculateDeliveryFee(parcel)
-        );
-    }
+            if (manager.isEmpty()) {
+                System.out.println("No parcels yet.");
+                return;
+            }
 
-    private void markAsDelivered() {
-        System.out.println("\n==============================================");
-        System.out.println("             MARK AS DELIVERED");
-        System.out.println("==============================================");
+            System.out.print("Enter tracking number: ");
+            String trackingNumber = sc.nextLine();
 
-        System.out.print("Enter tracking number: ");
-        String trackingNumber = sc.nextLine();
+            Parcel parcel = manager.findParcel(trackingNumber);
 
-        Parcel parcel = manager.findParcel(trackingNumber);
+            if (parcel == null) {
+                System.out.println("Parcel not found!");
+                return;
+            }
 
-        if (parcel == null) {
-            System.out.println("Parcel not found!");
-            return;
-        }
+            if (parcel.getStatus().equals("Delivered")) {
+                System.out.println("Parcel already delivered!");
+                return;
+            }
 
-        if (parcel.getStatus().equals("Delivered")) {
-            System.out.println("Parcel already delivered!");
-            return;
-        }
-
-        parcel.setStatus("Delivered");
-
-        System.out.println("Parcel marked as delivered successfully!");
+            parcel.setStatus("Delivered");
+            System.out.println("Parcel marked as delivered successfully!");
     }
 }
