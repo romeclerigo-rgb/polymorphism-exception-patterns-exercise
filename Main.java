@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -91,9 +92,11 @@ public class Main {
             int length = validation.getPositiveInt(
                 sc, "Enter length in cm: ", 1, 100000
             );
+
             int width = validation.getPositiveInt(
                 sc, "Enter width in cm: ", 1, 100000
             );
+
             int height = validation.getPositiveInt(
                 sc, "Enter height in cm: ", 1, 100000
             );
@@ -106,9 +109,11 @@ public class Main {
             int length = validation.getPositiveInt(
                 sc, "Enter length in cm: ", 1, 100000
             );
+
             int width = validation.getPositiveInt(
                 sc, "Enter width in cm: ", 1, 100000
             );
+
             int height = validation.getPositiveInt(
                 sc, "Enter height in cm: ", 1, 100000
             );
@@ -140,13 +145,17 @@ public class Main {
         manager.addParcel(parcel);
 
         System.out.println("Parcel added successfully!");
-        System.out.println("Tracking Number: " + parcel.getTrackingNumber());
+        System.out.println(
+            "Tracking Number: " + parcel.getTrackingNumber()
+        );
+
         System.out.printf(
-            "Chargeable Weight: %.2f kg%n",
+            "Chargeable Weight: %,.2f kg%n",
             parcel.getChargeableWeight()
         );
+
         System.out.printf(
-            "Delivery Fee: Php %.2f%n",
+            "Delivery Fee: Php %,.2f%n",
             manager.calculateDeliveryFee(parcel)
         );
     }
@@ -175,13 +184,15 @@ public class Main {
 
         for (Parcel parcel : parcels) {
             System.out.printf(
-                "%-12s %-12s %-20s %12.2f %-12s %14.2f %-12s%n",
+                "%-12s %-12s %-20s %12s %-12s %14s %-12s%n",
                 parcel.getTrackingNumber(),
                 parcel.getParcelType(),
                 parcel.getReceiverName(),
-                parcel.getChargeableWeight(),
+                String.format("%,.2f", parcel.getChargeableWeight()),
                 parcel.getDeliveryService(),
-                manager.calculateDeliveryFee(parcel),
+                String.format(
+                    "%,.2f", manager.calculateDeliveryFee(parcel)
+                ),
                 parcel.getStatus()
             );
         }
@@ -213,6 +224,13 @@ public class Main {
 
         String newService = validation.getDeliveryService(sc);
 
+        if (newService.equals(parcel.getDeliveryService())) {
+            System.out.println(
+                "Parcel is already using this delivery service!"
+            );
+            return;
+        }
+
         if (newService.equals("Same Day")
                 && parcel.getChargeableWeight() > 10) {
             System.out.println(
@@ -224,9 +242,12 @@ public class Main {
         parcel.setDeliveryService(newService);
 
         System.out.println("Delivery service updated successfully!");
-        System.out.println("New service: " + parcel.getDeliveryService());
+        System.out.println(
+            "New service: " + parcel.getDeliveryService()
+        );
+
         System.out.printf(
-            "New delivery fee: Php %.2f%n",
+            "New delivery fee: Php %,.2f%n",
             manager.calculateDeliveryFee(parcel)
         );
     }
